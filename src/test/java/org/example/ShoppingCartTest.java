@@ -56,5 +56,40 @@ public class ShoppingCartTest {
         assertEquals(5, cart.getItems().get("apple"));
     }
 
+    @Test
+    public void testRemoveNullProduct() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            cart.removeItem(null, 1);
+        });
+    }
+
+    @Test
+    public void testRemoveEmptyProduct() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            cart.removeItem("   ", 1);
+        });
+    }
+
+    @Test
+    public void testRemoveNegativeQuantity() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            cart.removeItem("Apple", -5);
+        });
+    }
+
+    @Test
+    public void testRemoveZeroQuantity() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            cart.removeItem("Banana", 0);
+        });
+    }
+
+    @Test
+    public void testRemovePositiveQuantity() {
+        cart.addItem("Apple", 5);
+        ShoppingCart.RemovalStatus status = cart.removeItem("Apple", 3);
+        assertEquals(ShoppingCart.RemovalStatus.REMOVED, status);
+        assertEquals(2, cart.getItems().get("apple"));
+    }
 
 }
