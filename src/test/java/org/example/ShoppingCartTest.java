@@ -49,5 +49,12 @@ public class ShoppingCartTest {
         assertEquals(1, cart.getItems().get("apple"));
     }
 
+    @Test
+    public void testAddNormalizedName(){
+        cart.addItem("  ApPlE  ", 2);
+        cart.addItem("Apple", 3);
+        assertEquals(5, cart.getItems().get("apple"));
+    }
+
 
 }
