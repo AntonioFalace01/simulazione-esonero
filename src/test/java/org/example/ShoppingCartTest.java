@@ -3,8 +3,7 @@ package org.example;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ShoppingCartTest {
 
@@ -91,5 +90,27 @@ public class ShoppingCartTest {
         assertEquals(ShoppingCart.RemovalStatus.REMOVED, status);
         assertEquals(2, cart.getItems().get("apple"));
     }
+
+    @Test
+    public void testRemoveNotInCart() {
+        ShoppingCart.RemovalStatus status = cart.removeItem("Banana", 2);
+        assertEquals(ShoppingCart.RemovalStatus.NOT_IN_CART, status);
+    }
+
+    @Test
+    public void testRemoveNotEnoughItems() {
+        cart.addItem("Orange", 2);
+        ShoppingCart.RemovalStatus status = cart.removeItem("Orange", 5);
+        assertEquals(ShoppingCart.RemovalStatus.NOT_ENOUGH_ITEMS, status);
+    }
+
+    @Test
+    public void testRemoveExactQuantity() {
+        cart.addItem("Grapes", 4);
+        ShoppingCart.RemovalStatus status = cart.removeItem("Grapes", 4);
+        assertEquals(ShoppingCart.RemovalStatus.REMOVED, status);
+        assertFalse(cart.getItems().containsKey("grapes"));
+    }
+
 
 }
